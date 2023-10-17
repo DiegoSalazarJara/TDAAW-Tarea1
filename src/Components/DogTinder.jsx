@@ -89,67 +89,87 @@ const DogTinder = () => {
 };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-  <Grid container spacing={10} style={styles.paperContainer}>
-    <Grid  item md={4} sm={12} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
-      <Typography variant="h6" style={{ textAlign: 'center' }}>Perro Candidato</Typography>
-      {loading ? (
-        <CircularProgress />
-      ) : (
-        <Card sx={{ maxWidth: 350 }}>
-          <CardMedia component="img" height="350" image={dogImage} alt="Perro Candidato" />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {dogName}
-            </Typography>
-            <Typography variant="body1">
-              {dogdescrip}
-            </Typography>
-          </CardContent>
-          <CardActions sx={{ justifyContent: 'center' }}>
-            <Button onClick={acceptDog} disabled={buttonsDisabled} sx={{ backgroundColor: 'green', color: 'white' }}>
-              Aceptar
-            </Button>
-            <Button onClick={rejectDog} disabled={buttonsDisabled} sx={{ backgroundColor: 'red', color: 'white' }}>
-              Rechazar
-            </Button>
-          </CardActions>
-        </Card>
-      )}
-    </Grid>
-    <Grid item xs={12} sm={6} md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
-      <Typography variant="h6" style={{ textAlign: 'center' }}>Perros Aceptados</Typography>
-      {acceptedDogs.map((dog, index) => (
-        <Card key={index} sx={{ maxWidth: 350 }}>
-          <CardMedia component="img" height="200" image={dog.image} alt="Perro Aceptado" />
-          <CardContent>
-            <Typography>{dog.name}</Typography>
-            <Typography>{dog.descrip}</Typography>
-          </CardContent>
-          <CardActions sx={{ justifyContent: 'center' }}>
-            <Button onClick={() => undoAccept(index)}>Arrepentirse</Button>
-          </CardActions>
-        </Card>
-      ))}
-    </Grid>
-    <Grid item xs={12} sm={6} md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
-      <Typography variant="h6" style={{ textAlign: 'center' }}>Perros Rechazados</Typography>
-      {rejectedDogs.map((dog, index) => (
-        <Card key={index}>
-          <CardMedia component="img" height="200" image={dog.image} alt="Perro Rechazado" />
-          <CardContent>
-            <Typography>{dog.name}</Typography>
-            <Typography>{dog.descrip}</Typography>
-          </CardContent>
-          <CardActions sx={{ justifyContent: 'center' }}>
-            <Button onClick={() => undoReject(index)}>Arrepentirse</Button>
-          </CardActions>
-        </Card>
-      ))}
-    </Grid>
-  </Grid>
-</div>
+    
+      <Grid container spacing={3} >
+        
+        <Grid  item md={4} sm={12} >
+          <Grid container direction="column" spacing={2} sx={{ overflowY: 'auto', maxHeight: '100vh', alignItems: 'center' }}>
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Typography variant="h6" style={{ textAlign: 'center' }}>Perro Candidato</Typography>
+            </Grid>
+            <Grid item xs={12}>
+            {loading ? (
+              <CircularProgress />
+              ) : (
+                <Card sx={{ maxWidth: 350 , minHeight: 350}}>
+                  <CardMedia component="img" height="350" image={dogImage} alt="Perro Candidato" />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {dogName}
+                    </Typography>
+                    <Typography variant="body1">
+                      {dogdescrip}
+                    </Typography>
+                  </CardContent>
+                  <CardActions sx={{ justifyContent: 'center' }}>
+                    <Button onClick={acceptDog} disabled={buttonsDisabled} sx={{ backgroundColor: 'green', color: 'white' }}>
+                      Aceptar
+                    </Button>
+                    <Button onClick={rejectDog} disabled={buttonsDisabled} sx={{ backgroundColor: 'red', color: 'white' }}>
+                      Rechazar
+                    </Button>
+                  </CardActions>
+                </Card>
+              )}
+            </Grid>
+          </Grid>
+        </Grid>
 
+        <Grid item md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
+          <Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Grid item xs={12}>
+              <Typography variant="h6" style={{ textAlign: 'center' }}>Perros Aceptados</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              {acceptedDogs.map((dog, index) => (
+                <Card key={index} sx={{ minHeight: 350 }}>
+                  <CardMedia component="img" height="200" image={dog.image} alt="Perro Aceptado" />
+                  <CardContent>
+                    <Typography>{dog.name}</Typography>
+                    <Typography>{dog.descrip}</Typography>
+                  </CardContent>
+                  <CardActions sx={{ justifyContent: 'center' }}>
+                    <Button onClick={() => undoAccept(index)}>Arrepentirse</Button>
+                  </CardActions>
+                </Card>
+              ))}
+            </Grid>
+          </Grid> 
+        </Grid>
+
+        <Grid item md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
+          <Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Grid item xs={12}>
+              <Typography variant="h6" style={{ textAlign: 'center' }}>Perros Rechazados</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              {rejectedDogs.map((dog, index) => (
+                <Card key={index} sx={{ mainWidth: 350 }}>
+                  <CardMedia component="img" height="200" image={dog.image} alt="Perro Rechazado" />
+                  <CardContent>
+                    <Typography>{dog.name}</Typography>
+                    <Typography>{dog.descrip}</Typography>
+                  </CardContent>
+                  <CardActions sx={{ justifyContent: 'center' }}>
+                    <Button onClick={() => undoReject(index)}>Arrepentirse</Button>
+                  </CardActions>
+                </Card>
+              ))}
+            </Grid>
+          </Grid> 
+        </Grid>
+      </Grid>
+    
   );
 };
 export default DogTinder;
