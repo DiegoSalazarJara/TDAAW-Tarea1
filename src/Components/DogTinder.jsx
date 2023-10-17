@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Grid, CircularProgress, Typography } from '@mui/material';
-
+import { LoremIpsum } from 'lorem-ipsum';
 const getRandomDogImage = async () => {
   try {
     const response = await axios.get('https://dog.ceo/api/breeds/image/random');
@@ -26,6 +26,7 @@ const DogTinder = () => {
   const [loading, setLoading] = useState(true);
   const [dogImage, setDogImage] = useState('');
   const [dogName, setDogName] = useState(generateRandomName());
+  const [dogdescrip, setDogdescrip] = useState();
   const [acceptedDogs, setAcceptedDogs] = useState([]);
   const [rejectedDogs, setRejectedDogs] = useState([]);
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
@@ -35,8 +36,10 @@ const DogTinder = () => {
     setButtonsDisabled(true); // Deshabilitar los botones durante la carga de la imagen
     try {
       const imageUrl = await getRandomDogImage();
+      const desc = new LoremIpsum().generateSentences(1);
       setDogImage(imageUrl);
       setDogName(generateRandomName());
+      setDogdescrip(desc);
     } catch (error) {
       // Manejar el error
     } finally {
@@ -46,13 +49,13 @@ const DogTinder = () => {
   };
 
   const acceptDog = () => {
-    const newAcceptedDogs = [...acceptedDogs, { name: dogName, image: dogImage }];
+    const newAcceptedDogs = [...acceptedDogs, { name: dogName, image: dogImage, descrip: dogdescrip}];
     setAcceptedDogs(newAcceptedDogs);
     fetchRandomDog();
   };
 
   const rejectDog = () => {
-    const newRejectedDogs = [...rejectedDogs, { name: dogName, image: dogImage }];
+    const newRejectedDogs = [...rejectedDogs, { name: dogName, image: dogImage, descrip: dogdescrip}];
     setRejectedDogs(newRejectedDogs);
     fetchRandomDog();
   };
@@ -80,7 +83,9 @@ const DogTinder = () => {
   return (
     <div>
       <Grid container spacing={2}>
-        <Grid item xs={4}>
+        <Grid item md={4} sm = {12}>
+
+          
           <Typography variant="h6">Perro Candidato</Typography>
           {loading ? (
             <div>
@@ -90,6 +95,7 @@ const DogTinder = () => {
             <div>
               <img src={dogImage} alt={dogName} />
               <Typography>{dogName}</Typography>
+              <Typography>{dogdescrip}</Typography>
               <Button onClick={acceptDog} disabled={buttonsDisabled || loading}>
                 Aceptar
               </Button>
@@ -100,21 +106,25 @@ const DogTinder = () => {
           )}
         </Grid>
         <Grid item xs={4}>
+          
           <Typography variant="h6">Perros Aceptados</Typography>
           {acceptedDogs.map((dog, index) => (
             <div key={index}>
               <img src={dog.image} alt={dog.name} />
               <Typography>{dog.name}</Typography>
+              <Typography>{dog.descrip}</Typography>
               <Button onClick={() => undoAccept(index)}>Arrepentirse</Button>
             </div>
           ))}
         </Grid>
         <Grid item xs={4}>
+         
           <Typography variant="h6">Perros Rechazados</Typography>
           {rejectedDogs.map((dog, index) => (
             <div key={index}>
               <img src={dog.image} alt={dog.name} />
               <Typography>{dog.name}</Typography>
+              <Typography>{dog.descrip}</Typography>
               <Button onClick={() => undoReject(index)}>Arrepentirse</Button>
             </div>
           ))}
