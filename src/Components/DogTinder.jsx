@@ -91,7 +91,7 @@ const DogTinder = () => {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
   <Grid container spacing={10} style={styles.paperContainer}>
-    <Grid  item md={4} sm={12}>
+    <Grid  item md={4} sm={12} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
       <Typography variant="h6" style={{ textAlign: 'center' }}>Perro Candidato</Typography>
       {loading ? (
         <CircularProgress />
@@ -117,7 +117,7 @@ const DogTinder = () => {
         </Card>
       )}
     </Grid>
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid item xs={12} sm={6} md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
       <Typography variant="h6" style={{ textAlign: 'center' }}>Perros Aceptados</Typography>
       {acceptedDogs.map((dog, index) => (
         <Card key={index} sx={{ maxWidth: 350 }}>
@@ -132,7 +132,7 @@ const DogTinder = () => {
         </Card>
       ))}
     </Grid>
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid item xs={12} sm={6} md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
       <Typography variant="h6" style={{ textAlign: 'center' }}>Perros Rechazados</Typography>
       {rejectedDogs.map((dog, index) => (
         <Card key={index}>
