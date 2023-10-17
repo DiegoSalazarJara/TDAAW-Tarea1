@@ -14,7 +14,6 @@ const getRandomDogImage = async () => {
 };
 
 
-
 const generateRandomName = () => {
   const characters = 'abcdefghijklmnopqrstuvwxyz';
   let randomName = '';
@@ -116,19 +115,22 @@ const DogTinder = () => {
 
   const styles = {
     paperContainer: {
-        height: 1356,
+        height: 2400,
+        backgroundImage: `url(${"../public/wallpaper.png"})`,
     }
 };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-  <Grid container spacing={10} style={styles.paperContainer}>
+    
+  <Grid container spacing={3} style={styles.paperContainer}>
     <Grid  item md={4} sm={12}>
-      <Typography variant="h6" style={{ textAlign: 'center' }}>Perro Candidato</Typography>
+    <Grid container direction="column" spacing={2} sx={{ overflowY: 'auto', maxHeight: '100vh', alignItems: 'center' }}>
+     
+      <Typography variant="h6" style={{ textAlign: 'center',  margin: '20px auto' }}>Perro Candidato</Typography>
       {loading ? (
         <CircularProgress />
       ) : (
-        <Card sx={{ maxWidth: 350 }}>
+        <Card sx={{ maxWidth: 350}} >
           <CardMedia component="img" height="350" image={dogImage} alt="Perro Candidato" />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
@@ -148,11 +150,17 @@ const DogTinder = () => {
           </CardActions>
         </Card>
       )}
-    </Grid>
-    <Grid item md={4} sm={6}>
+     </Grid>
+</Grid>
+    
+<Grid item md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
+<Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Grid item xs={12}>
       <Typography variant="h6" style={{ textAlign: 'center' }}>Perros Aceptados</Typography>
+      </Grid>
+      <Grid item xs={12}>
       {acceptedDogs.map((dog, index) => (
-        <Card key={index} sx={{ maxWidth: 350 }}>
+        <Card key={index} sx={{ maxWidth: 350 , margin: '20px auto'}}>
           <CardMedia component="img" height="200" image={dog.image} alt="Perro Aceptado" />
           <CardContent>
             <Typography>{dog.name}</Typography>
@@ -172,10 +180,14 @@ const DogTinder = () => {
         </Card>
       ))}
     </Grid>
-    <Grid item md={4} sm={6}>
+          </Grid> 
+        </Grid>
+        <Grid item md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
+        <Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Grid item xs={12}>
       <Typography variant="h6" style={{ textAlign: 'center' }}>Perros Rechazados</Typography>
       {rejectedDogs.map((dog, index) => (
-        <Card key={index}>
+        <Card key={index} sx={{ maxWidth: 350 , margin: '20px auto'}}>
           <CardMedia component="img" height="200" image={dog.image} alt="Perro Rechazado" />
           <CardContent>
             <Typography>{dog.name}</Typography>
@@ -194,9 +206,10 @@ const DogTinder = () => {
           </CardActions>
         </Card>
       ))}
-    </Grid>
-  </Grid>
-</div>
+     </Grid>
+      </Grid> 
+      </Grid>
+      </Grid>
 
   );
 };
