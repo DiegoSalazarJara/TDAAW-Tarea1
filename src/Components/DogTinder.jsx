@@ -134,7 +134,7 @@ const DogTinder = () => {
       <Grid container spacing={1} className="scroll-container">
         <Grid item xs={12} md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
         <Typography variant="h3" style={{ textAlign: 'center',  backgroundColor: '#ff7070', color: 'white', position: 'sticky', top: 0, zIndex: 1 }}>Perros Candidatos</Typography>
-          <Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' , position: 'relative' }}>
+          <Grid container direction="column" spacing={-1} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' , position: 'relative' }}>
               {loading ? (
                 <CircularProgress />
               ) : (
@@ -161,9 +161,9 @@ const DogTinder = () => {
           </Grid>
         </Grid>
         
-        <Grid item xs={6} md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
+        <Grid item xs={6} md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh'}}>
         <Typography variant="h4" style={{ textAlign: 'center',  backgroundColor: '#ff7070', color: 'white', position: 'sticky', top: 0, zIndex: 1 }}>Perros Aceptados</Typography>
-          <Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' , position: 'relative' }}>
+          <Grid container direction="column" marginTop={2} spacing={-1} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' , position: 'relative' }}>
               {acceptedDogs.map((dog, index) => (
                 <Card key={index} sx={{ maxWidth: 450 , margin: '20px auto'}}>
                   <CardMedia component="img" image={dog.image} alt="Perro Aceptado" />
@@ -189,7 +189,7 @@ const DogTinder = () => {
 
         <Grid item xs={6} md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
         <Typography variant="h4" style={{ textAlign: 'center', backgroundColor: '#ff7070', color: 'white', position: 'sticky', top: 0, zIndex: 1 }}>Perros Rechazados</Typography>
-          <Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' , position: 'relative' }}>
+          <Grid container direction="column" marginTop={2} spacing={-1} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' , position: 'relative' }}>
               {rejectedDogs.map((dog, index) => (
                 <Card key={index} sx={{ maxWidth: 450 , margin: '20px auto'}}>
                   <CardMedia component="img" image={dog.image} alt="Perro Rechazado" />
