@@ -132,13 +132,14 @@ const DogTinder = () => {
     <div className="container">
       
       <Grid container spacing={1} className="scroll-container">
-        <Grid item xs={12} md={4}>
-          <Grid container direction="column" spacing={2} sx={{alignItems: 'center' }}>
+        <Grid item xs={12} md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
+        <Typography variant="h3" style={{ textAlign: 'center',  backgroundColor: '#ff7070', color: 'white', position: 'sticky', top: 0, zIndex: 1 }}>Perros Candidatos</Typography>
+          <Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' , position: 'relative' }}>
               {loading ? (
                 <CircularProgress />
               ) : (
-                <Card sx={{ maxWidth: 450}} >
-                  <CardMedia component="img" height="450" image={dogImage} alt="Perro Candidato" />
+                <Card sx={{ maxWidth: 380, margin: '20px auto'}} >
+                  <CardMedia component="img" image={dogImage} alt="Perro Candidato" />
                   <CardContent>
                     <Typography gutterBottom variant="h5">
                       {dogName}
@@ -161,10 +162,11 @@ const DogTinder = () => {
         </Grid>
         
         <Grid item xs={6} md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
-          <Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Typography variant="h4" style={{ textAlign: 'center',  backgroundColor: '#ff7070', color: 'white', position: 'sticky', top: 0, zIndex: 1 }}>Perros Aceptados</Typography>
+          <Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' , position: 'relative' }}>
               {acceptedDogs.map((dog, index) => (
                 <Card key={index} sx={{ maxWidth: 450 , margin: '20px auto'}}>
-                  <CardMedia component="img" height="300" image={dog.image} alt="Perro Aceptado" />
+                  <CardMedia component="img" image={dog.image} alt="Perro Aceptado" />
                   <CardContent>
                     <Typography gutterBottom variant="h5">{dog.name}</Typography>
                       {descriptionsVisibilityacept[index] && (
@@ -172,12 +174,12 @@ const DogTinder = () => {
                     )}
                   </CardContent>
                   <CardActions sx={{ justifyContent: 'center' }}>
-                    <Button onClick={() => undoAccept(index)} sx={{ backgroundColor: 'red', color: 'white' }}>Arrepentirse</Button>
+                    <Button onClick={() => undoAccept(index)} sx={{ backgroundColor: 'red', color: 'white' , fontSize: { xs: '0.7rem', md: '1rem' }  }}>Arrepentirse</Button>
                     <Button
                       onClick={() => toggleDescriptionVisibilityAcc(index)}
-                      sx={{ backgroundColor: 'grey', color: 'white' }}
+                      sx={{ backgroundColor: 'grey', color: 'white' , fontSize: { xs: '0.6rem', md: '1rem' } }}
                     >
-                      {descriptionsVisibilityacept[index] ? 'Ocultar Descripción' : 'Mostrar Descripción'}
+                      {descriptionsVisibilityacept[index] ? 'Ocultar' : 'Ver más'}
                     </Button>
                   </CardActions>
                 </Card>
@@ -186,10 +188,11 @@ const DogTinder = () => {
         </Grid>
 
         <Grid item xs={6} md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
-          <Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Typography variant="h4" style={{ textAlign: 'center', backgroundColor: '#ff7070', color: 'white', position: 'sticky', top: 0, zIndex: 1 }}>Perros Rechazados</Typography>
+          <Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' , position: 'relative' }}>
               {rejectedDogs.map((dog, index) => (
                 <Card key={index} sx={{ maxWidth: 450 , margin: '20px auto'}}>
-                  <CardMedia component="img" height="300" image={dog.image} alt="Perro Rechazado" />
+                  <CardMedia component="img" image={dog.image} alt="Perro Rechazado" />
                   <CardContent>
                     <Typography gutterBottom variant="h5">{dog.name}</Typography>
                       {descriptionsVisibilityreject[index] && (
@@ -197,12 +200,12 @@ const DogTinder = () => {
                     )}
                   </CardContent>
                   <CardActions sx={{ justifyContent: 'center' }}>
-                    <Button onClick={() => undoReject(index)} sx={{ backgroundColor: 'red', color: 'white' }}>Arrepentirse</Button>
+                    <Button onClick={() => undoReject(index)} sx={{ backgroundColor: 'blue', color: 'white' , fontSize: { xs: '0.7rem', md: '1rem' } }}>Arrepentirse</Button>
                     <Button
                       onClick={() => toggleDescriptionVisibilityRej(index)}
-                      sx={{ backgroundColor: 'grey', color: 'white' }}
+                      sx={{ backgroundColor: 'grey', color: 'white' , fontSize: { xs: '0.6rem', md: '1rem' } }}
                     >
-                      {descriptionsVisibilityreject[index] ? 'Ocultar Descripción' : 'Mostrar Descripción'}
+                      {descriptionsVisibilityreject[index] ? 'Ocultar' : 'Ver más'}
                     </Button>
                   </CardActions>
                 </Card>
