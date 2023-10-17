@@ -1,0 +1,15 @@
+.container {
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .scroll-container {
+    height: 100%;
+    overflow-y: auto;
+  }
+  
+  @media (min-width: 600px) {
+    .container {
+      overflow: visible;
+    }
+  }
