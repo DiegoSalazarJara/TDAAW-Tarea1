@@ -33,8 +33,8 @@ const DogTinder = () => {
   const [acceptedDogs, setAcceptedDogs] = useState([]);
   const [rejectedDogs, setRejectedDogs] = useState([]);
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
-  const [showAcceptedDescription, setShowAcceptedDescription] = useState(false);
-  const [showRejectedDescription, setShowRejectedDescription] = useState(false);
+  const [descriptionsVisibilityacept, setDescriptionsVisibilityAcept] = useState({});
+  const [descriptionsVisibilityreject, setDescriptionsVisibilityReject] = useState({});
 
   const fetchRandomDog = async () => {
     setLoading(true);
@@ -50,21 +50,48 @@ const DogTinder = () => {
     } finally {
       setLoading(false);
       setButtonsDisabled(false); // Habilitar los botones después de cargar la imagen
-      setShowAcceptedDescription(Array(acceptedDogs.length).fill(false));
-      setShowRejectedDescription(Array(rejectedDogs.length).fill(false));
+      //setShowAcceptedDescription(Array(acceptedDogs.length).fill(false));
+      //setShowRejectedDescription(Array(rejectedDogs.length).fill(false));
     }
   };
 
   const acceptDog = () => {
-    const newAcceptedDogs = [...acceptedDogs, { name: dogName, image: dogImage, descrip: dogdescrip}];
+    const newAcceptedDogs = [...acceptedDogs, { name: dogName, image: dogImage, descrip: dogdescrip }];
     setAcceptedDogs(newAcceptedDogs);
+
+    // Agregar una entrada para el nuevo perro en el estado de visibilidad
+    setDescriptionsVisibilityAcept((prevVisibility) => ({
+      ...prevVisibility,
+      [newAcceptedDogs.length - 1]: false,
+    }));
+
     fetchRandomDog();
+  };
+
+  const toggleDescriptionVisibilityAcc = (key) => {
+    setDescriptionsVisibilityAcept((prevVisibility) => ({
+      ...prevVisibility,
+      [key]: !prevVisibility[key],
+    }));
   };
 
   const rejectDog = () => {
     const newRejectedDogs = [...rejectedDogs, { name: dogName, image: dogImage, descrip: dogdescrip}];
     setRejectedDogs(newRejectedDogs);
+    // Agregar una entrada para el nuevo perro en el estado de visibilidad
+    setDescriptionsVisibilityReject((prevVisibility) => ({
+      ...prevVisibility,
+      [newRejectedDogs.length - 1]: false,
+    }));
+
     fetchRandomDog();
+  };
+
+  const toggleDescriptionVisibilityRej = (key) => {
+    setDescriptionsVisibilityReject((prevVisibility) => ({
+      ...prevVisibility,
+      [key]: !prevVisibility[key],
+    }));
   };
 
   const undoAccept = (index) => {
@@ -86,18 +113,6 @@ const DogTinder = () => {
   useEffect(() => {
     fetchRandomDog();
   }, []);
-
-  const toggleAcceptedDescription = (index) => {
-    const updatedShowAcceptedDescription = [...showAcceptedDescription];
-    updatedShowAcceptedDescription[index] = !updatedShowAcceptedDescription[index];
-    setShowAcceptedDescription(updatedShowAcceptedDescription);
-  };
-
-  const toggleRejectedDescription = (index) => {
-    const updatedShowRejectedDescription = [...showRejectedDescription];
-    updatedShowRejectedDescription[index] = !updatedShowRejectedDescription[index];
-    setShowRejectedDescription(updatedShowRejectedDescription);
-  };
 
   const styles = {
     paperContainer: {
@@ -141,17 +156,17 @@ const DogTinder = () => {
           <CardMedia component="img" height="200" image={dog.image} alt="Perro Aceptado" />
           <CardContent>
             <Typography>{dog.name}</Typography>
-            {showAcceptedDescription[index] && (
+            {descriptionsVisibilityacept[index] && (
             <Typography>{dog.descrip}</Typography>
             )}
           </CardContent>
           <CardActions sx={{ justifyContent: 'center' }}>
             <Button onClick={() => undoAccept(index)} sx={{ backgroundColor: 'red', color: 'white' }}>Arrepentirse</Button>
             <Button
-                  onClick={() => toggleAcceptedDescription(index)}
+                  onClick={() => toggleDescriptionVisibilityAcc(index)}
                   sx={{ backgroundColor: 'grey', color: 'white' }}
                 >
-                  {showAcceptedDescription[index] ? 'Ocultar Descripción' : 'Mostrar Descripción'}
+                  {descriptionsVisibilityacept[index] ? 'Ocultar Descripción' : 'Mostrar Descripción'}
                 </Button>
           </CardActions>
         </Card>
@@ -164,17 +179,17 @@ const DogTinder = () => {
           <CardMedia component="img" height="200" image={dog.image} alt="Perro Rechazado" />
           <CardContent>
             <Typography>{dog.name}</Typography>
-            {showRejectedDescription[index] && (
+            {descriptionsVisibilityreject[index] && (
             <Typography>{dog.descrip}</Typography>
             )}
           </CardContent>
           <CardActions sx={{ justifyContent: 'center' }}>
             <Button onClick={() => undoReject(index)} sx={{ backgroundColor: 'red', color: 'white' }}>Arrepentirse</Button>
             <Button
-                  onClick={() => toggleRejectedDescription(index)}
+                  onClick={() => toggleDescriptionVisibilityRej(index)}
                   sx={{ backgroundColor: 'grey', color: 'white' }}
                 >
-                  {showRejectedDescription[index] ? 'Ocultar Descripción' : 'Mostrar Descripción'}
+                  {descriptionsVisibilityreject[index] ? 'Ocultar Descripción' : 'Mostrar Descripción'}
                 </Button>
           </CardActions>
         </Card>
