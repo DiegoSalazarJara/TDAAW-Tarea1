@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button, Grid, CircularProgress, Typography } from '@mui/material';
+import { Button, Grid, CircularProgress, Typography, Card, CardActions, CardContent, CardMedia} from '@mui/material';
 import { LoremIpsum } from 'lorem-ipsum';
 const getRandomDogImage = async () => {
   try {
@@ -11,6 +11,8 @@ const getRandomDogImage = async () => {
     throw error;
   }
 };
+
+
 
 const generateRandomName = () => {
   const characters = 'abcdefghijklmnopqrstuvwxyz';
@@ -80,58 +82,74 @@ const DogTinder = () => {
     fetchRandomDog();
   }, []);
 
-  return (
-    <div>
-      <Grid container spacing={2}>
-        <Grid item md={4} sm = {12}>
-
-          
-          <Typography variant="h6">Perro Candidato</Typography>
-          {loading ? (
-            <div>
-              <CircularProgress />
-            </div>
-          ) : (
-            <div>
-              <img src={dogImage} alt={dogName} />
-              <Typography>{dogName}</Typography>
-              <Typography>{dogdescrip}</Typography>
-              <Button onClick={acceptDog} disabled={buttonsDisabled || loading}>
-                Aceptar
-              </Button>
-              <Button onClick={rejectDog} disabled={buttonsDisabled || loading}>
-                Rechazar
-              </Button>
-            </div>
-          )}
-        </Grid>
-        <Grid item xs={4}>
-          
-          <Typography variant="h6">Perros Aceptados</Typography>
-          {acceptedDogs.map((dog, index) => (
-            <div key={index}>
-              <img src={dog.image} alt={dog.name} />
-              <Typography>{dog.name}</Typography>
-              <Typography>{dog.descrip}</Typography>
-              <Button onClick={() => undoAccept(index)}>Arrepentirse</Button>
-            </div>
-          ))}
-        </Grid>
-        <Grid item xs={4}>
-         
-          <Typography variant="h6">Perros Rechazados</Typography>
-          {rejectedDogs.map((dog, index) => (
-            <div key={index}>
-              <img src={dog.image} alt={dog.name} />
-              <Typography>{dog.name}</Typography>
-              <Typography>{dog.descrip}</Typography>
-              <Button onClick={() => undoReject(index)}>Arrepentirse</Button>
-            </div>
-          ))}
-        </Grid>
-      </Grid>
-    </div>
-  );
+  const styles = {
+    paperContainer: {
+        height: 1356,
+    }
 };
 
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+  <Grid container spacing={10} style={styles.paperContainer}>
+    <Grid  item md={4} sm={12}>
+      <Typography variant="h6" style={{ textAlign: 'center' }}>Perro Candidato</Typography>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <Card sx={{ maxWidth: 350 }}>
+          <CardMedia component="img" height="350" image={dogImage} alt="Perro Candidato" />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {dogName}
+            </Typography>
+            <Typography variant="body1">
+              {dogdescrip}
+            </Typography>
+          </CardContent>
+          <CardActions sx={{ justifyContent: 'center' }}>
+            <Button onClick={acceptDog} disabled={buttonsDisabled} sx={{ backgroundColor: 'green', color: 'white' }}>
+              Aceptar
+            </Button>
+            <Button onClick={rejectDog} disabled={buttonsDisabled} sx={{ backgroundColor: 'red', color: 'white' }}>
+              Rechazar
+            </Button>
+          </CardActions>
+        </Card>
+      )}
+    </Grid>
+    <Grid item xs={12} sm={6} md={4}>
+      <Typography variant="h6" style={{ textAlign: 'center' }}>Perros Aceptados</Typography>
+      {acceptedDogs.map((dog, index) => (
+        <Card key={index} sx={{ maxWidth: 350 }}>
+          <CardMedia component="img" height="200" image={dog.image} alt="Perro Aceptado" />
+          <CardContent>
+            <Typography>{dog.name}</Typography>
+            <Typography>{dog.descrip}</Typography>
+          </CardContent>
+          <CardActions sx={{ justifyContent: 'center' }}>
+            <Button onClick={() => undoAccept(index)}>Arrepentirse</Button>
+          </CardActions>
+        </Card>
+      ))}
+    </Grid>
+    <Grid item xs={12} sm={6} md={4}>
+      <Typography variant="h6" style={{ textAlign: 'center' }}>Perros Rechazados</Typography>
+      {rejectedDogs.map((dog, index) => (
+        <Card key={index}>
+          <CardMedia component="img" height="200" image={dog.image} alt="Perro Rechazado" />
+          <CardContent>
+            <Typography>{dog.name}</Typography>
+            <Typography>{dog.descrip}</Typography>
+          </CardContent>
+          <CardActions sx={{ justifyContent: 'center' }}>
+            <Button onClick={() => undoReject(index)}>Arrepentirse</Button>
+          </CardActions>
+        </Card>
+      ))}
+    </Grid>
+  </Grid>
+</div>
+
+  );
+};
 export default DogTinder;
