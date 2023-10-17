@@ -1,0 +1,6 @@
+body {
+    background-image: url("../../public/tinder-background.jpeg");
+    background-position: center center;
+    background-size: cover;
+    overflow: hidden;
+}

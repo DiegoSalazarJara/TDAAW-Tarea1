@@ -67,13 +67,6 @@ const DogTinder = () => {
     fetchRandomDog();
   };
 
-  const toggleDescriptionVisibilityAcc = (key) => {
-    setDescriptionsVisibilityAcept((prevVisibility) => ({
-      ...prevVisibility,
-      [key]: !prevVisibility[key],
-    }));
-  };
-
   const rejectDog = () => {
     const newRejectedDogs = [...rejectedDogs, { name: dogName, image: dogImage, descrip: dogdescrip}];
     setRejectedDogs(newRejectedDogs);
@@ -86,11 +79,32 @@ const DogTinder = () => {
     fetchRandomDog();
   };
 
+  const toggleDescriptionVisibilityAcc = (key) => {
+    setDescriptionsVisibilityAcept((prevVisibility) => {
+      const updatedVisibility = {};
+  
+      Object.keys(prevVisibility).forEach((descriptionKey) => {
+        updatedVisibility[descriptionKey] = false;
+      });
+  
+      updatedVisibility[key] = !prevVisibility[key];
+  
+      return updatedVisibility;
+    });
+  };
+  
   const toggleDescriptionVisibilityRej = (key) => {
-    setDescriptionsVisibilityReject((prevVisibility) => ({
-      ...prevVisibility,
-      [key]: !prevVisibility[key],
-    }));
+    setDescriptionsVisibilityReject((prevVisibility) => {
+      const updatedVisibility = {};
+  
+      Object.keys(prevVisibility).forEach((descriptionKey) => {
+        updatedVisibility[descriptionKey] = false;
+      });
+  
+      updatedVisibility[key] = !prevVisibility[key];
+  
+      return updatedVisibility;
+    });
   };
 
   const undoAccept = (index) => {
@@ -113,104 +127,96 @@ const DogTinder = () => {
     fetchRandomDog();
   }, []);
 
-  const styles = {
-    paperContainer: {
-        height: 2400,
-        backgroundImage: `url(${"../public/wallpaper.png"})`,
-    }
-};
-
   return (
     
-  <Grid container spacing={3} style={styles.paperContainer}>
-    <Grid  item md={4} sm={12}>
-    <Grid container direction="column" spacing={2} sx={{ overflowY: 'auto', maxHeight: '100vh', alignItems: 'center' }}>
-     
-      <Typography variant="h6" style={{ textAlign: 'center',  margin: '20px auto' }}>Perro Candidato</Typography>
-      {loading ? (
-        <CircularProgress />
-      ) : (
-        <Card sx={{ maxWidth: 350}} >
-          <CardMedia component="img" height="350" image={dogImage} alt="Perro Candidato" />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {dogName}
-            </Typography>
-            <Typography variant="body1">
-              {dogdescrip}
-            </Typography>
-          </CardContent>
-          <CardActions sx={{ justifyContent: 'center' }}>
-            <Button onClick={acceptDog} disabled={buttonsDisabled} sx={{ backgroundColor: 'green', color: 'white' }}>
-              Aceptar
-            </Button>
-            <Button onClick={rejectDog} disabled={buttonsDisabled} sx={{ backgroundColor: 'red', color: 'white' }}>
-              Rechazar
-            </Button>
-          </CardActions>
-        </Card>
-      )}
-     </Grid>
-</Grid>
-    
-<Grid item md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
-<Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Grid item xs={12}>
-      <Typography variant="h6" style={{ textAlign: 'center' }}>Perros Aceptados</Typography>
-      </Grid>
-      <Grid item xs={12}>
-      {acceptedDogs.map((dog, index) => (
-        <Card key={index} sx={{ maxWidth: 350 , margin: '20px auto'}}>
-          <CardMedia component="img" height="200" image={dog.image} alt="Perro Aceptado" />
-          <CardContent>
-            <Typography>{dog.name}</Typography>
-            {descriptionsVisibilityacept[index] && (
-            <Typography>{dog.descrip}</Typography>
+    <Grid container spacing={1}>
+      <Grid item xs={6} md={4}>
+        <Grid container direction="column" spacing={2} sx={{ overflowY: 'auto', maxHeight: '100vh', alignItems: 'center' }}>
+          <Grid item xs={12} >
+
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              <Card sx={{ maxWidth: 450}} >
+                <CardMedia component="img" height="450" image={dogImage} alt="Perro Candidato" />
+                <CardContent>
+                  <Typography gutterBottom variant="h5">
+                    {dogName}
+                  </Typography>
+                  <Typography variant="body1">
+                    {dogdescrip}
+                  </Typography>
+                </CardContent>
+                <CardActions sx={{ justifyContent: 'center' }}>
+                  <Button onClick={acceptDog} disabled={buttonsDisabled} sx={{ backgroundColor: 'green', color: 'white' }}>
+                    Aceptar
+                  </Button>
+                  <Button onClick={rejectDog} disabled={buttonsDisabled} sx={{ backgroundColor: 'red', color: 'white' }}>
+                    Rechazar
+                  </Button>
+                </CardActions>
+              </Card>
             )}
-          </CardContent>
-          <CardActions sx={{ justifyContent: 'center' }}>
-            <Button onClick={() => undoAccept(index)} sx={{ backgroundColor: 'red', color: 'white' }}>Arrepentirse</Button>
-            <Button
-                  onClick={() => toggleDescriptionVisibilityAcc(index)}
-                  sx={{ backgroundColor: 'grey', color: 'white' }}
-                >
-                  {descriptionsVisibilityacept[index] ? 'Ocultar Descripción' : 'Mostrar Descripción'}
-                </Button>
-          </CardActions>
-        </Card>
-      ))}
-    </Grid>
-          </Grid> 
+          </Grid>  
         </Grid>
-        <Grid item md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
-        <Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Grid item xs={12}>
-      <Typography variant="h6" style={{ textAlign: 'center' }}>Perros Rechazados</Typography>
-      {rejectedDogs.map((dog, index) => (
-        <Card key={index} sx={{ maxWidth: 350 , margin: '20px auto'}}>
-          <CardMedia component="img" height="200" image={dog.image} alt="Perro Rechazado" />
-          <CardContent>
-            <Typography>{dog.name}</Typography>
-            {descriptionsVisibilityreject[index] && (
-            <Typography>{dog.descrip}</Typography>
-            )}
-          </CardContent>
-          <CardActions sx={{ justifyContent: 'center' }}>
-            <Button onClick={() => undoReject(index)} sx={{ backgroundColor: 'red', color: 'white' }}>Arrepentirse</Button>
-            <Button
-                  onClick={() => toggleDescriptionVisibilityRej(index)}
-                  sx={{ backgroundColor: 'grey', color: 'white' }}
-                >
-                  {descriptionsVisibilityreject[index] ? 'Ocultar Descripción' : 'Mostrar Descripción'}
-                </Button>
-          </CardActions>
-        </Card>
-      ))}
-     </Grid>
-      </Grid> 
       </Grid>
+      
+      <Grid item xs={6} md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
+        <Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Grid item xs={12} >
+            
+            {acceptedDogs.map((dog, index) => (
+              <Card key={index} sx={{ maxWidth: 450 , margin: '20px auto'}}>
+                <CardMedia component="img" height="300" image={dog.image} alt="Perro Aceptado" />
+                <CardContent>
+                  <Typography gutterBottom variant="h5">{dog.name}</Typography>
+                    {descriptionsVisibilityacept[index] && (
+                  <Typography>{dog.descrip}</Typography>
+                  )}
+                </CardContent>
+                <CardActions sx={{ justifyContent: 'center' }}>
+                  <Button onClick={() => undoAccept(index)} sx={{ backgroundColor: 'red', color: 'white' }}>Arrepentirse</Button>
+                  <Button
+                    onClick={() => toggleDescriptionVisibilityAcc(index)}
+                    sx={{ backgroundColor: 'grey', color: 'white' }}
+                  >
+                    {descriptionsVisibilityacept[index] ? 'Ocultar Descripción' : 'Mostrar Descripción'}
+                  </Button>
+                </CardActions>
+              </Card>
+            ))}
+          </Grid>
+        </Grid> 
       </Grid>
 
+      <Grid item xs={6} md={4} sx={{ overflowY: 'auto' , maxHeight: '100vh' }}>
+        <Grid container direction="column" spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Grid item xs={12}>
+            
+            {rejectedDogs.map((dog, index) => (
+              <Card key={index} sx={{ maxWidth: 450 , margin: '20px auto'}}>
+                <CardMedia component="img" height="300" image={dog.image} alt="Perro Rechazado" />
+                <CardContent>
+                  <Typography gutterBottom variant="h5">{dog.name}</Typography>
+                    {descriptionsVisibilityreject[index] && (
+                  <Typography>{dog.descrip}</Typography>
+                  )}
+                </CardContent>
+                <CardActions sx={{ justifyContent: 'center' }}>
+                  <Button onClick={() => undoReject(index)} sx={{ backgroundColor: 'red', color: 'white' }}>Arrepentirse</Button>
+                  <Button
+                    onClick={() => toggleDescriptionVisibilityRej(index)}
+                    sx={{ backgroundColor: 'grey', color: 'white' }}
+                  >
+                    {descriptionsVisibilityreject[index] ? 'Ocultar Descripción' : 'Mostrar Descripción'}
+                  </Button>
+                </CardActions>
+              </Card>
+            ))}
+          </Grid>
+        </Grid> 
+      </Grid>
+    </Grid>
   );
 };
 export default DogTinder;
