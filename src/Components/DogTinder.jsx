@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Grid, CircularProgress, Typography, Card, CardActions, CardContent, CardMedia} from '@mui/material';
 import { LoremIpsum } from 'lorem-ipsum';
+
 const getRandomDogImage = async () => {
   try {
     const response = await axios.get('https://dog.ceo/api/breeds/image/random');
@@ -32,6 +33,8 @@ const DogTinder = () => {
   const [acceptedDogs, setAcceptedDogs] = useState([]);
   const [rejectedDogs, setRejectedDogs] = useState([]);
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
+  const [showAcceptedDescription, setShowAcceptedDescription] = useState(false);
+  const [showRejectedDescription, setShowRejectedDescription] = useState(false);
 
   const fetchRandomDog = async () => {
     setLoading(true);
@@ -47,6 +50,8 @@ const DogTinder = () => {
     } finally {
       setLoading(false);
       setButtonsDisabled(false); // Habilitar los botones después de cargar la imagen
+      setShowAcceptedDescription(Array(acceptedDogs.length).fill(false));
+      setShowRejectedDescription(Array(rejectedDogs.length).fill(false));
     }
   };
 
@@ -81,6 +86,18 @@ const DogTinder = () => {
   useEffect(() => {
     fetchRandomDog();
   }, []);
+
+  const toggleAcceptedDescription = (index) => {
+    const updatedShowAcceptedDescription = [...showAcceptedDescription];
+    updatedShowAcceptedDescription[index] = !updatedShowAcceptedDescription[index];
+    setShowAcceptedDescription(updatedShowAcceptedDescription);
+  };
+
+  const toggleRejectedDescription = (index) => {
+    const updatedShowRejectedDescription = [...showRejectedDescription];
+    updatedShowRejectedDescription[index] = !updatedShowRejectedDescription[index];
+    setShowRejectedDescription(updatedShowRejectedDescription);
+  };
 
   const styles = {
     paperContainer: {
@@ -117,32 +134,48 @@ const DogTinder = () => {
         </Card>
       )}
     </Grid>
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid item md={4} sm={6}>
       <Typography variant="h6" style={{ textAlign: 'center' }}>Perros Aceptados</Typography>
       {acceptedDogs.map((dog, index) => (
         <Card key={index} sx={{ maxWidth: 350 }}>
           <CardMedia component="img" height="200" image={dog.image} alt="Perro Aceptado" />
           <CardContent>
             <Typography>{dog.name}</Typography>
+            {showAcceptedDescription[index] && (
             <Typography>{dog.descrip}</Typography>
+            )}
           </CardContent>
           <CardActions sx={{ justifyContent: 'center' }}>
-            <Button onClick={() => undoAccept(index)}>Arrepentirse</Button>
+            <Button onClick={() => undoAccept(index)} sx={{ backgroundColor: 'red', color: 'white' }}>Arrepentirse</Button>
+            <Button
+                  onClick={() => toggleAcceptedDescription(index)}
+                  sx={{ backgroundColor: 'grey', color: 'white' }}
+                >
+                  {showAcceptedDescription[index] ? 'Ocultar Descripción' : 'Mostrar Descripción'}
+                </Button>
           </CardActions>
         </Card>
       ))}
     </Grid>
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid item md={4} sm={6}>
       <Typography variant="h6" style={{ textAlign: 'center' }}>Perros Rechazados</Typography>
       {rejectedDogs.map((dog, index) => (
         <Card key={index}>
           <CardMedia component="img" height="200" image={dog.image} alt="Perro Rechazado" />
           <CardContent>
             <Typography>{dog.name}</Typography>
+            {showRejectedDescription[index] && (
             <Typography>{dog.descrip}</Typography>
+            )}
           </CardContent>
           <CardActions sx={{ justifyContent: 'center' }}>
-            <Button onClick={() => undoReject(index)}>Arrepentirse</Button>
+            <Button onClick={() => undoReject(index)} sx={{ backgroundColor: 'red', color: 'white' }}>Arrepentirse</Button>
+            <Button
+                  onClick={() => toggleRejectedDescription(index)}
+                  sx={{ backgroundColor: 'grey', color: 'white' }}
+                >
+                  {showRejectedDescription[index] ? 'Ocultar Descripción' : 'Mostrar Descripción'}
+                </Button>
           </CardActions>
         </Card>
       ))}
